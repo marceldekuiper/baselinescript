@@ -8,7 +8,7 @@ ssid=$(networksetup -getairportnetwork en0 | awk '{print $NF}')
 
 # Only go down this routine if the user is connected to the following SSID's
 # Prevents these prompts from appearing at home, etc.
-ssidToCheck=("Public" "KPN")
+ssidToCheck=("PUBLIC" "KPN")
 
 if [[ ${ssidToCheck[@]} =~ $ssid ]]
 then
