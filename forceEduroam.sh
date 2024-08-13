@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # SSID we want to connect to
-eduroamSSID="Eduroam"
+eduroamSSID="eduroam"
 
 # Get current connected SSID
 ssid=$(networksetup -getairportnetwork en0 | awk '{print $NF}')
@@ -9,7 +9,7 @@ echo "You are currently connected to SSID ${ssid}."
 
 # Only go down this routine if the user is connected to the following SSID's
 # Prevents these prompts from appearing at home, etc.
-ssidToCheck=("PUBLIC" "KPN")
+ssidToCheck=("PUBLIC" "Guest_KPN@VUmc")
 
 if [[ ${ssidToCheck[@]} =~ $ssid ]]
 then
