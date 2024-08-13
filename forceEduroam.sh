@@ -27,6 +27,6 @@ then
       /
 
       ssid=$(networksetup -getairportnetwork en0 | awk '{print $NF}')
-      sleep 5
+      sleep 20
   done
 fi
