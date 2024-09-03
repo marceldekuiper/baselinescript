@@ -27,6 +27,33 @@ then
       /
 
       ssid=$(networksetup -getairportnetwork en0 | awk '{print $NF}')
-      sleep 20
+      sleep 60
   done
+fi
+
+# Checking if we have an actuall working network connection
+((count = 30))                           # Maximum number to try.
+
+while [[ $count -ne 0 ]] ; do
+    ping -W 1 -c 1 8.8.8.8               # Try once. Pass deadline (-W) param otherwise we wait up to 10 seconds per try.
+    rc=$?
+    if [[ $rc -eq 0 ]] ; then
+        ((count = 1))                    # If okay, flag loop exit.
+    else
+        sleep 1                          # Minimise network storm.
+    fi
+    ((count = count - 1))                # So we don't go forever.
+    echo "$count and counting"
+done
+
+if [[ $rc -eq 0 ]] ; then                # Make final determination.
+    echo "Working internet connection established, continue!"
+else
+    echo "No working internet connection found within 30 tries. Informing user."
+    /usr/local/bin/dialog --title "Internet connection" \
+      --message "No working internet connection found. Installation of apps will fail." \
+      --overlayicon warning \
+      --icon "/System/Applications/Utilities/AirPort Utility.app" --mini \
+      --ontop \
+      /
 fi
